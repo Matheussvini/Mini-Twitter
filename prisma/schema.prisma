@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  username   String   @unique
+  email      String   @unique
+  password   String
+  posts      Post[]
+  followings Follow[] @relation("followingUser")
+  followers  Follow[] @relation("followedUser")
+
+  @@map("users")
+}
+
+model Follow {
+  id                Int      @id @default(autoincrement())
+  followingUser     User     @relation("followingUser", fields: [following_user_id], references: [id], onDelete: Cascade)
+  following_user_id Int
+  followedUser      User     @relation("followedUser", fields: [followed_user_id], references: [id], onDelete: Cascade)
+  followed_user_id  Int
+  createdAt         DateTime @default(now())
+
+  @@map("follows")
+}
+
+model Post {
+  id          Int          @id @default(autoincrement())
+  author      User         @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  author_id   Int
+  content     String       @db.Text
+  attachments Attachment[]
+  createdAt   DateTime     @default(now())
+
+  @@map("posts")
+}
+
+model Attachment {
+  id      Int    @id @default(autoincrement())
+  post    Post   @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  post_id Int
+  url     String
+
+  @@map("attachments")
+}
