@@ -28,7 +28,7 @@ async function login({ email, password }: LoginInput): Promise<UserWithToken> {
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) throw invalidCredentialsError('Invalid email or password');
 
-  const data = { user_id: user.id };
+  const data = { userId: user.id };
   const token = jwt.sign(data, process.env.JWT_SECRET as string, { expiresIn: '1d' });
   delete user.password;
 

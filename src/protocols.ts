@@ -3,3 +3,8 @@ export type ApplicationError = {
   message: string;
   details?: string[];
 };
+
+export type getTweetsParams = {
+  page: number;
+  userId: number;
+};
