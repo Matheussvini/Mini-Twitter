@@ -13,6 +13,14 @@ export const loginSchema = Joi.object<LoginInput>({
   password: Joi.string().min(6).required(),
 });
 
+export const followSchema = Joi.object<FollowInput>({
+  id: Joi.number().required(),
+});
+
+export type FollowInput = {
+  id: number;
+};
+
 export type CreateUserInput = Omit<User, 'id'>;
 
 export type LoginInput = Pick<User, 'email' | 'password'>;

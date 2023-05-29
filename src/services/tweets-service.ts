@@ -1,10 +1,10 @@
-import { getTweetsParams } from '@/protocols';
+import { GetTweetsParams } from '@/protocols';
 import { tweetRepository } from '@/repositories';
 import { TweetInput } from '@/schemas';
 
 export type createTweetParams = TweetInput & { author_id: number };
 
-async function getTweetsForFeed({ page, userId }: getTweetsParams) {
+async function getTweetsForFeed({ page, userId }: GetTweetsParams) {
   const tweets = await tweetRepository.getFeed({ page, userId });
   const totalPages = await tweetRepository.countPages(userId);
 

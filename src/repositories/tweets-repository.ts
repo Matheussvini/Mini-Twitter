@@ -1,9 +1,9 @@
 import { prisma } from '@/config';
-import { getTweetsParams } from '@/protocols';
+import { GetTweetsParams } from '@/protocols';
 
 const pageSize = 10;
 
-async function getFeed({ page, userId }: getTweetsParams) {
+async function getFeed({ page, userId }: GetTweetsParams) {
   const skip = (page - 1) * pageSize;
 
   const tweets = await prisma.post.findMany({

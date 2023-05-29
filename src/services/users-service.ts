@@ -4,6 +4,7 @@ import { User } from '@prisma/client';
 import { conflictError, invalidCredentialsError } from '@/errors';
 import { CreateUserInput, LoginInput } from '@/schemas';
 import { userRepository } from '@/repositories';
+import { FollowUserParams } from '@/protocols';
 
 async function validateUniqueUserData({ username, email }: Pick<User, 'username' | 'email'>) {
   const checkUsername = await userRepository.findByUsername(username);
@@ -35,9 +36,34 @@ async function login({ email, password }: LoginInput): Promise<UserWithToken> {
   return { ...user, token };
 }
 
+async function checkFollow({ following_user_id, followed_user_id }: FollowUserParams) {
+  if (following_user_id === followed_user_id) throw conflictError('You cannot follow yourself');
+
+  return await userRepository.checkIfUserAlreadyFollowed({
+    following_user_id,
+    followed_user_id,
+  });
+}
+
+async function followUser({ following_user_id, followed_user_id }: FollowUserParams): Promise<void> {
+  const follow = await checkFollow({ following_user_id, followed_user_id });
+  if (follow) throw conflictError('You already follow this user');
+
+  await userRepository.followUser({ following_user_id, followed_user_id });
+}
+
+async function unfollowUser({ following_user_id, followed_user_id }: FollowUserParams) {
+  const follow = await checkFollow({ following_user_id, followed_user_id });
+  if (!follow) throw conflictError('You already do not follow this user');
+
+  await userRepository.unfollowUser(follow.id);
+}
+
 export type UserWithToken = Omit<User, 'password'> & { token: string };
 
 export const userService = {
   createUser,
   login,
+  followUser,
+  unfollowUser,
 };

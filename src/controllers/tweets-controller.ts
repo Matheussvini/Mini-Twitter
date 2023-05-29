@@ -2,7 +2,7 @@ import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
 import { tweetService } from '@/services';
 import { AuthenticatedRequest } from '@/middlewares';
-import { getTweetsParams } from '@/protocols';
+import { GetTweetsParams } from '@/protocols';
 import { TweetInput } from '@/schemas';
 
 export async function getTweets(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<Response> {
@@ -10,7 +10,7 @@ export async function getTweets(req: AuthenticatedRequest, res: Response, next: 
   const { page } = req.params as Record<string, string>;
 
   try {
-    const tweets = await tweetService.getTweetsForFeed({ page: Number(page), userId: user.id } as getTweetsParams);
+    const tweets = await tweetService.getTweetsForFeed({ page: Number(page), userId: user.id } as GetTweetsParams);
     return res.status(httpStatus.OK).send(tweets);
   } catch (error) {
     next(error);
