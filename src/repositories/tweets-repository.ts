@@ -26,8 +26,18 @@ async function getFeed({ page, userId }: getTweetsParams) {
         },
       },
     },
+    include: {
+      attachments: true,
+    },
   });
-  return tweets;
+
+  const tweetsWithAttachments = tweets.map((tweet) => {
+    const files_urls = tweet.attachments.map((attachment) => attachment.url);
+    delete tweet.attachments;
+    return { ...tweet, files_urls };
+  });
+
+  return tweetsWithAttachments;
 }
 
 async function countPages(userId: number) {
@@ -50,7 +60,31 @@ async function countPages(userId: number) {
   return Math.ceil(total / pageSize);
 }
 
+async function postTweet({ content, author_id }: { content: string; author_id: number }) {
+  const tweet = await prisma.post.create({
+    data: {
+      content,
+      author_id,
+    },
+  });
+
+  return tweet;
+}
+
+async function postAttachment({ post_id, url }: { post_id: number; url: string }) {
+  const attachment = await prisma.attachment.create({
+    data: {
+      url,
+      post_id,
+    },
+  });
+
+  return attachment;
+}
+
 export const tweetRepository = {
   getFeed,
   countPages,
+  postTweet,
+  postAttachment,
 };

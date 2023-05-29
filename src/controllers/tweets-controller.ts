@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 import { tweetService } from '@/services';
 import { AuthenticatedRequest } from '@/middlewares';
 import { getTweetsParams } from '@/protocols';
+import { TweetInput } from '@/schemas';
 
 export async function getTweets(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<Response> {
   const { user } = req;
@@ -32,6 +33,18 @@ export async function uploadFile(req: AuthenticatedRequest, res: Response, next:
 
   try {
     return res.status(httpStatus.CREATED).send({ message: 'Imagem enviada com sucesso!', url, key });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function postTweet(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { user } = req;
+  const { content, files_urls } = req.body as TweetInput;
+
+  try {
+    await tweetService.createTweet({ content, files_urls, author_id: user.id });
+    return res.status(httpStatus.CREATED).send({ message: 'Tweet created sucessfully!' });
   } catch (error) {
     next(error);
   }
