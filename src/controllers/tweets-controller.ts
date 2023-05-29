@@ -15,3 +15,24 @@ export async function getTweets(req: AuthenticatedRequest, res: Response, next: 
     next(error);
   }
 }
+interface MulterFileWithLocation extends Express.Multer.File {
+  location: string;
+  key: string;
+}
+
+export async function uploadFile(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { location, key } = req.file as MulterFileWithLocation;
+  let url = '';
+  if (location) url = location;
+  else {
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const relativePath = req.file.filename;
+    url = `${baseUrl}/uploads/${relativePath}`;
+  }
+
+  try {
+    return res.status(httpStatus.CREATED).send({ message: 'Imagem enviada com sucesso!', url, key });
+  } catch (error) {
+    next(error);
+  }
+}

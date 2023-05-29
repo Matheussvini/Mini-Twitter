@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import 'express-async-errors';
+import path from 'path';
 import cors from 'cors';
 import express, { Express } from 'express';
 import { tweetsRouter, usersRouter } from './routers';
@@ -14,6 +15,7 @@ app
   .use(express.json())
   .use('/users', usersRouter)
   .use('/tweets', tweetsRouter)
+  .use('/uploads', express.static(path.resolve(process.cwd(), 'tmp', 'uploads')))
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
