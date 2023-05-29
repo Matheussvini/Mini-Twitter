@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User } from '@prisma/client';
-import { conflictError, invalidCredentialsError } from '@/errors';
+import { conflictError, invalidCredentialsError, notFoundError } from '@/errors';
 import { CreateUserInput, LoginInput } from '@/schemas';
 import { userRepository } from '@/repositories';
 import { FollowUserParams } from '@/protocols';
@@ -38,6 +38,9 @@ async function login({ email, password }: LoginInput): Promise<UserWithToken> {
 
 async function checkFollow({ following_user_id, followed_user_id }: FollowUserParams) {
   if (following_user_id === followed_user_id) throw conflictError('You cannot follow yourself');
+
+  const usersExists = await userRepository.findById(followed_user_id);
+  if (!usersExists) throw notFoundError('User does not exist');
 
   return await userRepository.checkIfUserAlreadyFollowed({
     following_user_id,
