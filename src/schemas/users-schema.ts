@@ -8,4 +8,11 @@ export const createUserSchema = Joi.object<CreateUserInput>({
   password: Joi.string().min(6).required(),
 });
 
+export const loginSchema = Joi.object<LoginInput>({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+});
+
 export type CreateUserInput = Omit<User, 'id'>;
+
+export type LoginInput = Pick<User, 'email' | 'password'>;

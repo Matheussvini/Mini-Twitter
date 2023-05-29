@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { User } from '@prisma/client';
-import { conflictError } from '@/errors';
-import { CreateUserInput } from '@/schemas';
+import { conflictError, invalidCredentialsError } from '@/errors';
+import { CreateUserInput, LoginInput } from '@/schemas';
 import { userRepository } from '@/repositories';
 
 async function validateUniqueUserData({ username, email }: Pick<User, 'username' | 'email'>) {
@@ -20,6 +21,23 @@ async function createUser({ name, username, email, password }: CreateUserInput):
   await userRepository.create({ name, username, email, password: hashedPassword });
 }
 
+async function login({ email, password }: LoginInput): Promise<UserWithToken> {
+  const user = await userRepository.findByEmail(email);
+  if (!user) throw invalidCredentialsError('Invalid email or password');
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) throw invalidCredentialsError('Invalid email or password');
+
+  const data = { user_id: user.id };
+  const token = jwt.sign(data, process.env.JWT_SECRET as string, { expiresIn: '1d' });
+  delete user.password;
+
+  return { ...user, token };
+}
+
+export type UserWithToken = Omit<User, 'password'> & { token: string };
+
 export const userService = {
   createUser,
+  login,
 };
