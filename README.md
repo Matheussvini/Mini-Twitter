@@ -5,6 +5,7 @@ Mini Twitter is a API REST for a small social media application built with Node.
 ## Table of Contents
 
 - [Features](#features)
+- [Deploy](#api-and-database-deployment)
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -22,6 +23,15 @@ Mini Twitter is a API REST for a small social media application built with Node.
 - Posting static files on tweets
 - Timeline to view tweets from followed users
 - User profile management
+
+# API and Database Deployment
+The API and database for this project have been successfully deployed and are now live. You can access them using the following link:
+
+https://mini-twitter-api.onrender.com
+
+The integration between the API and the database allows seamless communication and data storage for the application. You can now interact with the API endpoints to perform various operations and utilize the functionality provided by the application.
+
+Feel free to explore and make use of the deployed API and database. If you encounter any issues or have any feedback, please don't hesitate to reach out.
 
 ## Getting Started
 
