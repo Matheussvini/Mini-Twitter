@@ -61,25 +61,21 @@ async function countPages(userId: number) {
 }
 
 async function postTweet({ content, author_id }: { content: string; author_id: number }) {
-  const tweet = await prisma.post.create({
+  return await prisma.post.create({
     data: {
       content,
       author_id,
     },
   });
-
-  return tweet;
 }
 
 async function postAttachment({ post_id, url }: { post_id: number; url: string }) {
-  const attachment = await prisma.attachment.create({
+  return await prisma.attachment.create({
     data: {
       url,
       post_id,
     },
   });
-
-  return attachment;
 }
 
 export const tweetRepository = {
