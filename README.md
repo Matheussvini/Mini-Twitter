@@ -33,6 +33,18 @@ The integration between the API and the database allows seamless communication a
 
 Feel free to explore and make use of the deployed API and database. If you encounter any issues or have any feedback, please don't hesitate to reach out.
 
+## Database Schema
+A comprehensive database schema has been designed and implemented for this project. It provides a structured representation of the tables and relationships in the database.
+
+To visualize the model of the database tables, refer to the following image:
+
+![Database Schema](https://github.com/Matheussvini/mini-twitter/blob/feat/tests/src/utils/images/db-diagram.png)
+
+
+The database schema illustrates the organization of entities, their attributes, and the associations between them. It serves as a reference for understanding the data structure and relationships within the application.
+
+Please refer to the image above to gain a better understanding of the database structure and how the tables are interconnected.
+
 ## Getting Started
 
 To get a local copy up and running, follow these steps.
