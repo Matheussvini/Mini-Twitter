@@ -13,10 +13,12 @@ export async function authValidation(req: AuthenticatedRequest, res: Response, n
 
   try {
     const { userId } = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
+    if (!userId) throw unauthorizedError('Authentication token invalid');
 
-    const user = await userRepository.findById(userId);
-    if (!user) delete user.password;
+    const user = await userRepository.findById(Number(userId));
+    if (!user) throw unauthorizedError('Authentication token invalid');
 
+    delete user.password;
     req.user = user;
     next();
   } catch (error) {
