@@ -14,12 +14,12 @@ async function validateUniqueUserData({ username, email }: Pick<User, 'username'
   if (checkEmail) throw conflictError('Email already exists');
 }
 
-async function createUser({ name, username, email, password }: CreateUserInput): Promise<void> {
+async function createUser({ name, username, email, password }: CreateUserInput): Promise<User> {
   await validateUniqueUserData({ username, email });
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
-  await userRepository.create({ name, username, email, password: hashedPassword });
+  return await userRepository.create({ name, username, email, password: hashedPassword });
 }
 
 async function login({ email, password }: LoginInput): Promise<UserWithToken> {

@@ -15,5 +15,5 @@ export const tweetSchema = Joi.object<TweetInput>({
 
 export type TweetInput = {
   content: string;
-  files_urls: string[];
+  files_urls?: string[];
 };
