@@ -10,6 +10,9 @@ import { prisma } from '@/config';
 
 beforeAll(async () => {
   await init();
+});
+
+beforeEach(async () => {
   await cleanDb();
 });
 
