@@ -3,7 +3,7 @@ import 'express-async-errors';
 import path from 'path';
 import cors from 'cors';
 import express, { Express } from 'express';
-import { tweetsRouter, usersRouter } from './routers';
+import { swaggerRouter, tweetsRouter, usersRouter } from './routers';
 import { handleApplicationErrors } from './middlewares';
 import { connectDb, disconnectDb, loadEnv } from '@/config';
 
@@ -16,6 +16,7 @@ app
   .use('/users', usersRouter)
   .use('/tweets', tweetsRouter)
   .use('/uploads', express.static(path.resolve(process.cwd(), 'tmp', 'uploads')))
+  .use('/doc', swaggerRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
