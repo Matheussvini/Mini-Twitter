@@ -33,7 +33,13 @@ The integration between the API and the database allows seamless communication a
 
 Feel free to explore and make use of the deployed API and database. If you encounter any issues or have any feedback, please don't hesitate to reach out.
 
-## Database Schema
+# Documentation
+The API documentation can be accessed by visiting the following route:
+
+### [**API Documentation**](https://mini-twitter-api.onrender.com/doc)
+
+The documentation provides detailed information about the available endpoints, request and response formats, authentication requirements, and example requests and responses. It serves as a valuable resource for understanding and utilizing the functionalities provided by the API.
+# Database Schema
 A comprehensive database schema has been designed and implemented for this project. It provides a structured representation of the tables and relationships in the database.
 
 To visualize the model of the database tables, refer to the following image:
@@ -153,10 +159,13 @@ There are several things you need to do when you add new ENV VARIABLES:
 - Add them (prod version) to test.yml file on .github/workflows/test.yml.
 
 ## Contributing
-Contributions are welcome! If you have any improvements or bug fixes, feel free to submit a pull request.
+Contributions are welcome! If you have any improvements or bug fixes, feel free to submit a pull request. Additionally, I'm open to suggestions, ideas, or just having a conversation. Feel free to reach out to me through the following channels:
+
+- Email: matheussvini@outlook.com
+- LinkedIn: [linkedin.com/in/mvsd](https://linkedin.com/in/mvsd)
 
 ## License
-This project is licensed under the Mozila License.
+This project is licensed under the Mozilla Public License Version 2.0.
 
 
 
